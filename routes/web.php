@@ -1,5 +1,6 @@
 <?php
   
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\MovieController;
@@ -38,6 +39,13 @@ Route::post('/movies', [MovieController::class, 'index'])
 
 Route::get('/series', [SerieController::class, 'index'])
 ->middleware(['auth:sanctum', 'verified'])->name('series');
+
+ 
+Route::post('/tokens/create', function (Request $request) {
+    $token = $request->user()->createToken($request->token_name);
+ 
+    return ['token' => $token->plainTextToken];
+});
 
 require_once __DIR__ . "/jetstream.php";
 

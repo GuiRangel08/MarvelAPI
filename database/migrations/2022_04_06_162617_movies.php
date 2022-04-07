@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('name');
             $table->date('release_date');
             $table->timestamps();
+
+            $table->unique('name');
         });
     }
 

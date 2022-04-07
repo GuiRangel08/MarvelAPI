@@ -13,14 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('series', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->date('release_date');
-            $table->timestamps();
-
-            $table->unique('name');
-        });
+        Schema::rename('person', 'user_favorites');
     }
 
     /**
@@ -30,6 +23,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('series');
+        Schema::dropIfExists('user_favorites');
     }
 };

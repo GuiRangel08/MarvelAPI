@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class MovieController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         return view('movies', [
             'movies' => Movie::all()

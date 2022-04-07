@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignId('user_id');
             $table->timestamps();
 
-            $table->unique(['movie_id', 'user_id']);
+            $table->unique(['movie_id', 'serie_id', 'user_id']);
         });
     }
     /**
