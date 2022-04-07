@@ -15,8 +15,7 @@ class SerieController extends Controller
             return $this->search($request);
         }
 
-        return Str::random(60);
-        // return Serie::All();
+        return Serie::All();
     }
   
     public function store(Request $request)

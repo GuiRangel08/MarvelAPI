@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Movie;
 use App\Http\Controllers\Controller;
+use Exception;
 use Illuminate\Http\Request;
 
 class MovieController extends Controller 
@@ -28,20 +29,30 @@ class MovieController extends Controller
     
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string',
-            'release_date' => 'required|date'
-        ]);
+        try {
 
-        Movie::create([
-             'name' => $request->name,
-             'release_date' => date("Y-m-d", strtotime($request->release_date))
-        ]);
+            $request->validate([
+                'name' => 'required|string',
+                'release_date' => 'required|date'
+            ]);
+            
+            Movie::create([
+                'name' => $request->name,
+                'release_date' => date("Y-m-d", strtotime($request->release_date))
+            ]);
+            
+            return response()->json([
+                'status' => 'success',
+                'msg'    => 'Filme inserido com sucesso!',
+            ], 201);
+        } catch (\Exception $e) {
 
-        return response()->json([
-            'status' => 'success',
-            'msg'    => 'Filme inserido com sucesso!',
-        ], 201);
+            return response()->json([
+                'status' => 'error',
+                'msg'    => 'Não foi posssível inserir o novo filme!',
+            ], 422);
+
+        }
     }
 
     public function update(Request $request, $id)
@@ -79,7 +90,7 @@ class MovieController extends Controller
 
         } catch (\Exception $e) {
 
-            return response()->json(['message'=>'Filme não encontrado!'], 404);
+            return response()->json(['message'=>'Filme não encontrado!'], 418);
 
         }
     }

@@ -1,64 +1,252 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Projeto Marvel
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Sistema de votação do melhor filme e serie da Marvel. 
 
-## About Laravel
+Este projeto foi desenvolvido em Laravel 9, utilizando Sail, Sanctum, LiveWire e JetStream.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Para acessar, você deve acessar com uma conta google do gruponewway.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Learning Laravel
+Como instalar: 
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- Clone o repositório
+- Execute o script:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+        ./vendor/bin/sail up -d 
 
-## Laravel Sponsors
+- Acesse http://localhost:8888
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
 
-### Premium Partners
+# Marvel API
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+Esta API disponibiliza:
 
-## Contributing
+    - Consultar filmes e series disponíves
+    - Inserir filmes e series
+    - Alterar nome e outras informações
+    - Excluir filmes e series
+    - Consultar filmes e series mais votados
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## **Como utilizar**
 
-## Code of Conduct
+Para algumas requisições, é necessário a utilização do token.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Gerar Token
 
-## Security Vulnerabilities
+    - Acesse o Projeto Marvel
+        - clique em seu nome (canto superior direito)
+        - Profile
+        - clique no botão Gerar Api Token
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## **Filmes**
+ 
+### Buscar filmes
 
-## License
+>GET
+ 
+```
+/api/movies
+```
+*Parâmetro*
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Campo| Tipo | Descrição
+:----------|:------|:------
+name    *(Opcional)*|str | Digitar o nome ou parte do nome
+id      *(Opcional)*|int| Digitar o id do filme
+
+> **200** OK
+```json
+[
+  {
+    "id": 1,
+    "name": "Homem de Ferro",
+    "release_date": "2010-09-16",
+    "created_at": "2022-04-07T18:37:47.000000Z",
+    "updated_at": "2022-04-07T18:50:47.000000Z",
+    "votes": null
+  }
+]
+```
+
+### Adicionar filme
+> POST
+```
+/api/movies
+```
+**Header**
+Campo | Tipo |  Descrição
+:----------|:------|:------
+Authorization|str | Token de acesso Bearer **Token**
+Content-Type|str|multipart/form-data
+Accept|str|application/json
+
+**Parâmetro**
+Campo | Tipo |  Descrição
+:----------|:------|:------
+name    |str | Digitar o nome completo
+release_date      |Date| Data no formato AAAA-MM-DD
+
+
+> **201** Created
+```json
+{
+  "status": "success",
+  "msg": "Filme inserido com sucesso!"
+}
+```
+### Alterar filme
+> PUT
+```
+/api/movies/:id_do_filme
+```
+**Header**
+Campo | Tipo |  Descrição
+:----------|:------|:------
+Authorization|str | Token de acesso Bearer **Token**
+Content-Type|str|application/x-www-form-urlencoded
+Accept|str|application/json
+
+**Parâmetro**
+Campo | Tipo |  Descrição
+:----------|:------|:------
+name    *(Opcional)*|str | Digitar o nome completo
+release_date      *(Opcional)*|Date| Data no formato AAAA-MM-DD
+
+
+> **200** OK
+```json
+{
+  "status": "success",
+  "msg": "Informações do filme alteradas com sucesso!"
+}
+```
+
+### Excluir filme
+> DELETE
+```
+/api/movies/:id_do_filme
+```
+**Header**
+Campo | Tipo |  Descrição
+:----------|:------|:------
+Authorization|str | Token de acesso Bearer **Token**
+Accept|str|application/json
+
+> **200** OK
+```json
+{
+  "status": "success",
+  "msg": "Filme excluído com sucesso!"
+}
+```
+### Consultar filme mais votado
+___
+## **Series**
+ 
+### Buscar Series
+
+>GET
+ 
+```
+/api/series
+```
+*Parâmetro*
+
+Campo| Tipo | Descrição
+:----------|:------|:------
+name    *(Opcional)*|str | Digitar o nome ou parte do nome
+id      *(Opcional)*|int| Digitar o id do filme
+
+> **200** OK
+```json
+[
+  {
+    "id": 1,
+    "name": "Gavião Arqueiro",
+    "release_date": "2021-12-22",
+    "created_at": "2022-04-07T21:34:56.000000Z",
+    "updated_at": "2022-04-07T21:34:56.000000Z",
+    "seasons": 1,
+    "votes": null
+  }
+]
+```
+### Adicionar serie
+> POST
+```
+/api/series
+```
+**Header**
+Campo | Tipo |  Descrição
+:----------|:------|:------
+Authorization|str | Token de acesso Bearer **Token**
+Content-Type|str|multipart/form-data
+Accept|str|application/json
+
+**Parâmetro**
+Campo | Tipo |  Descrição
+:----------|:------|:------
+name    |str | Digitar o nome completo
+seasons    |int | Digitar a quantidade de temporadas
+release_date      |Date| Data no formato AAAA-MM-DD
+
+
+> **201** Created
+```json
+{
+  "status": "success",
+  "msg": "Série inserida com sucesso!"
+}
+```
+### Alterar série
+> PUT
+```
+/api/series/:id_da_serie
+```
+**Header**
+Campo | Tipo |  Descrição
+:----------|:------|:------
+Authorization|str | Token de acesso Bearer **Token**
+Content-Type|str|application/x-www-form-urlencoded
+Accept|str|application/json
+
+**Parâmetro**
+Campo | Tipo |  Descrição
+:----------|:------|:------
+name    *(Opcional)*|str | Digitar o nome completo
+seasons    *(Opcional)*|int | Digitar a quantidade de temporadas
+release_date      *(Opcional)*|Date| Data no formato AAAA-MM-DD
+
+
+> **200** OK
+```json
+{
+  "status": "success",
+  "msg": "Informações da série alteradas com sucesso!"
+}
+```
+
+### Excluir série
+> DELETE
+```
+/api/serie/:id_do_serie
+```
+**Header**
+Campo | Tipo |  Descrição
+:----------|:------|:------
+Authorization|str | Token de acesso Bearer **Token**
+Accept|str|application/json
+
+> **200** OK
+```json
+{
+  "status": "success",
+  "msg": "Série excluída com sucesso!"
+}
+```
+### Consultar série mais votada
+
+
+
+

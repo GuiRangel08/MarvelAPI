@@ -23,14 +23,15 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
 /***
  * 
  * Series Section 
- * series
+ * 
  ***/
 Route::get('/series', [SerieController::class, 'index']);
 Route::get('/series/{id}', [SerieController::class, 'show']);
-Route::post('/series', [SerieController::class, 'store']);
-Route::put('/series/{id}', [SerieController::class, 'update']);
-Route::delete('/series/{id}', [SerieController::class, 'destroy']);
-
+Route::group(['middleware' => ['auth:sanctum']], function() {
+    Route::post('/series', [SerieController::class, 'store']);
+    Route::put('/series/{id}', [SerieController::class, 'update']);
+    Route::delete('/series/{id}', [SerieController::class, 'destroy']);
+});
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

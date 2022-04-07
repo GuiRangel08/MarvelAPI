@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire;
 
-use \App\Models\User;
+use App\Http\Controllers\GenerateApiTokenController;
 use Livewire\Component;
 
 class GenerateApiToken extends Component
@@ -13,11 +13,10 @@ class GenerateApiToken extends Component
     }
     
     
-    public function generateToken()
+    public function callGenerateApiToken()
     {
         
-        $user = new User();
-        
-        return ['token' => $user()->createToken('api_token')->plainTextToken];
+        $user = new GenerateApiTokenController();
+        return redirect('profile')->with('api_token',$user->generateApiToken());
     } 
 }
