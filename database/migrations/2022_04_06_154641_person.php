@@ -15,12 +15,12 @@ return new class extends Migration
     {
         Schema::create('person', function (Blueprint $table){
             $table->id();
-            $table->foreignId('movie_id');
-            $table->foreignId('serie_id');
             $table->foreignId('user_id');
+            $table->foreignId('movie_id')->nullable();
+            $table->foreignId('serie_id')->nullable();
             $table->timestamps();
 
-            $table->unique(['movie_id', 'serie_id', 'user_id']);
+            $table->unique(['user_id']);
         });
     }
     /**
