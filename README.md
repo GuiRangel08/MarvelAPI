@@ -155,11 +155,11 @@ api/favorites/movies/top
 ```json
 {
     "name": "Homem Aranha 2",
-    "total_votes_movie": 2
+    "votes": 2
 }
 ```
 
-### Série menos votada
+### Filme menos votado
 
 > GET
 
@@ -172,7 +172,7 @@ api/favorites/movies/least
 ```json
 {
     "name": "Homem Aranha 3",
-    "total_votes_movie": 0
+    "votes": 0
 }
 ```
 
@@ -309,7 +309,7 @@ api/favorites/series/top
 ```json
 {
     "name": "Moon Knight",
-    "total_votes_serie": 2
+    "votes": 2
 }
 ```
 
@@ -326,7 +326,7 @@ api/favorites/series/least
 ```json
 {
     "name": "WandaVision",
-    "total_votes_serie": 1
+    "votes": 1
 }
 ```
 
@@ -345,21 +345,21 @@ api/favorites/all
     "movies": [
         {
             "name": "Homem Aranha 2",
-            "total_votes_movie": 2
+            "votes": 2
         },
         {
             "name": "Homem Aranha",
-            "total_votes_movie": 1
+            "votes": 1
         }
     ],
     "series": [
         {
             "name": "Moon Knight",
-            "total_votes_serie": 2
+            "votes": 2
         },
         {
             "name": "WandaVision",
-            "total_votes_serie": 1
+            "votes": 1
         }
     ]
 }

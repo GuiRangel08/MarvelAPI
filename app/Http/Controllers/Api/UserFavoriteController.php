@@ -12,14 +12,14 @@ class UserFavoriteController extends Controller
     public function index()
     {
         try {
-            $movies = UserFavorites::selectRaw("movies.name, count(user_favorites.movie_id) as total_votes_movie")
+            $movies = UserFavorites::selectRaw("movies.name, count(user_favorites.movie_id) as votes")
                 ->leftJoin("movies", function ($join) {
                     $join->on("movies.id", "=", "user_favorites.movie_id");
                 })
                 ->groupBy("user_favorites.movie_id")
                 ->get();
 
-            $series = UserFavorites::selectRaw("series.name, count(user_favorites.serie_id) as total_votes_serie")
+            $series = UserFavorites::selectRaw("series.name, count(user_favorites.serie_id) as votes")
                 ->leftJoin("series", function ($join) {
                     $join->on("series.id", "=", "user_favorites.serie_id");
                 })
@@ -38,12 +38,12 @@ class UserFavoriteController extends Controller
     public function topRatedMovie()
     {
         try {
-            return UserFavorites::selectRaw("movies.name, count(user_favorites.movie_id) as total_votes_movie")
+            return UserFavorites::selectRaw("movies.name, count(user_favorites.movie_id) as votes")
                 ->rightJoin("movies", function ($join) {
                     $join->on("movies.id", "=", "user_favorites.movie_id");
                 })
                 ->groupBy("movies.id")
-                ->orderBy("total_votes_movie", "desc")
+                ->orderBy("votes", "desc")
                 ->get()->first();
         } catch (\Exception $e) {
             return response()->json(['message' => 'Não possui dados!'], 404);
@@ -53,12 +53,12 @@ class UserFavoriteController extends Controller
     public function leastRatedMovie()
     {
         try {
-            return UserFavorites::selectRaw("movies.name, count(user_favorites.movie_id) as total_votes_movie")
+            return UserFavorites::selectRaw("movies.name, count(user_favorites.movie_id) as votes")
                 ->rightJoin("movies", function ($join) {
                     $join->on("movies.id", "=", "user_favorites.movie_id");
                 })
                 ->groupBy("movies.id")
-                ->orderBy("total_votes_movie", "asc")
+                ->orderBy("votes", "asc")
                 ->get()->first();
         } catch (\Exception $e) {
             return response()->json(['message' => 'Não possui dados!'], 404);
@@ -68,12 +68,12 @@ class UserFavoriteController extends Controller
     public function topRatedSerie()
     {
         try {
-            return UserFavorites::selectRaw("series.name, count(user_favorites.serie_id) as total_votes_serie")
+            return UserFavorites::selectRaw("series.name, count(user_favorites.serie_id) as votes")
                 ->rightJoin("series", function ($join) {
                     $join->on("series.id", "=", "user_favorites.serie_id");
                 })
                 ->groupBy("series.id")
-                ->orderBy("total_votes_serie", "desc")
+                ->orderBy("votes", "desc")
                 ->get()->first();
         } catch (\Exception $e) {
             return response()->json(['message' => 'Não possui dados!'], 404);
@@ -83,12 +83,12 @@ class UserFavoriteController extends Controller
     public function leastRatedSerie()
     {
         try {
-            return UserFavorites::selectRaw("series.name, count(user_favorites.serie_id) as total_votes_serie")
+            return UserFavorites::selectRaw("series.name, count(user_favorites.serie_id) as votes")
                 ->rightJoin("series", function ($join) {
                     $join->on("series.id", "=", "user_favorites.serie_id");
                 })
                 ->groupBy("series.id")
-                ->orderBy("total_votes_serie", "asc")
+                ->orderBy("votes", "asc")
                 ->get()->first();
         } catch (\Exception $e) {
             return response()->json(['message' => 'Não possui dados!'], 404);
